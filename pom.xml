@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>algorithms.practice</groupId>
-  <artifactId>merge-sort-practice</artifactId>
+  <artifactId>merge-sort-practice-take-i</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>merge-sort-practice</name>
+  <name>merge-sort-practice-take-i</name>
   <url>http://maven.apache.org</url>
 
   <properties>

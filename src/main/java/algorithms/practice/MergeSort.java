@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Merge sort solution that allocates a second array. O(n log n) performance, but O(2n) space.
+ */
 public class MergeSort {
     public static void main(String[] args) throws IOException {
         File file = new File(args[0]);
@@ -21,19 +24,22 @@ public class MergeSort {
 
     private static int[] mergeSort(int[] array) {
         int[] workingArray = new int[array.length];
+        update(workingArray, 0, array.length, array);
         mergeSort(array, 0, array.length, workingArray);
         return array;
     }
 
     // start is inclusive. end is exclusive
     private static void mergeSort(int[] array, int start, int end, int[] workingArray) {
-        if (end - start < 2) {
-            return;
+        int size = end - start;
+        if (size >= 2) {
+            int middle = size / 2 + start;
+            if (size != 2) {
+                mergeSort(array, start, middle, workingArray);
+                mergeSort(array, middle, end, workingArray);
+            }
+            merge(array, start, middle, end, workingArray);
         }
-        int middle = end / 2 + start - 1;
-        mergeSort(array, start, middle, workingArray);
-        mergeSort(array, middle, end, workingArray);
-        merge(array, start, middle, end, workingArray);
         update(array, start, end, workingArray);
     }
 
@@ -47,10 +53,17 @@ public class MergeSort {
         int left = start;
         int right = middle;
         for (int i = start; i < end; ++i) {
-            if ((left < middle && right < end && array[left] < array[right]) || (right >= end)) {
-                workingArray[i] = array[left++];
-            } else {
+            if (left >= middle && right >= end) {
+                break;
+            }
+            if (left >= middle) {
                 workingArray[i] = array[right++];
+            } else if (right >= end) {
+                workingArray[i] = array[left++];
+            } else if (array[left] > array[right]) {
+                workingArray[i] = array[right++];
+            } else {
+                workingArray[i] = array[left++];
             }
         }
     }
